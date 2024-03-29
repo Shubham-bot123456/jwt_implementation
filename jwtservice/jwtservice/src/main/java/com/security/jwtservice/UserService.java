@@ -13,6 +13,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmailId(username).orElseThrow(()-> new IllegalStateException("user not found in the database for the given email id ."));
+        return userRepository.findByUserName(username).orElseThrow(()-> new IllegalStateException("user not found in the database for the given email id ."));
     }
 }

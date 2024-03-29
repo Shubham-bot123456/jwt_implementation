@@ -25,15 +25,14 @@ public class CommonConfig {
         daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
         return daoAuthenticationProvider;
     }
-
-
+    
     @Bean
     public AuthenticationManager getAuthenticationManager(@Autowired AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    private PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

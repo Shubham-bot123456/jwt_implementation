@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 @Service
 public  class JwtService  {
-    private final String SIGN ="A4EB45F967BE3DDB5A6B2155B23DC";
+    private final String SIGN ="HpP4uSoWwvxv0/ZYMJc+edrJiQuolZQLTraLuJEm5KtHDrP+JSaitEeGnyRRuAbkZ2Nc/PQhdzYepJqeqD+kBhRBl4F6h3sUeKvXOovPjS2SFTnBfciLiywyn4gm+GCCaePG6bADRLiPRV1lW28YWbsdw0TRDAaovrQpKnHcuk6djrrkD8ESZC1GoA60GAXXW+z5oINdNXxNUqHmvHl8X6gJUWQhD00NSTibETiwizy3uTZaFsN/v2X7C/uM2oC5Xo/m+AhfzHh6neTvk2T5CyuMYJSBZkPORfNjPAZGKy0grkMzKhdgCRSlThoGP6m5oMdpCP0qHMayQ7rgJM0odoaq+vCT10yFdXJFpPhkuPI=";
     // validation section
 
    public boolean isTokenValid(String key, UserDetails userDetails){
@@ -42,7 +42,7 @@ public  class JwtService  {
     public String generateTokenOnlyWithUserDetails(UserDetails userDetails){
        return  Jwts.builder().
                 setSubject(userDetails.getUsername())
-                  .signWith(getSigningKey())
+                  .signWith(getSigningKey(),SignatureAlgorithm.HS256)
                   .setIssuedAt(new Date())
                   .setExpiration(new Date(System.currentTimeMillis()+(1000*60*60*24)))
                   .compact();
@@ -63,7 +63,6 @@ public  class JwtService  {
 
 
     private Key getSigningKey() {
-         String key="shubham";
          byte[] secreatKey= Decoders.BASE64.decode(SIGN);
          return Keys.hmacShaKeyFor(secreatKey);
     }
