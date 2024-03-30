@@ -42,8 +42,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = userservice.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 System.out.println("This logger will be printed when the token is valid for username " + username);
+                // IMPORTANT in the object below we have to mention credentials as null otherwise will get 403.
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, userDetails.getAuthorities()
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
                 );
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
