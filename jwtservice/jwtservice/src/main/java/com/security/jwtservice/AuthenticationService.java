@@ -30,13 +30,18 @@ public class AuthenticationService {
         authenticationResponse.setToken(jwtToken);
         return ResponseEntity.ok(authenticationResponse);
     }
-
+@Autowired
+private AuthenticationProvider authenticationProvider;
     public ResponseEntity<AutthenticationResponse> authenticate(AuthenticationRequest authenticationRequest) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
                 )
+        );
+        // this is also another way of doint it
+        authenticationProvider.authenticate(
+                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),authenticationRequest.getPassword())
         );
         UserDetails userDetails = userRepository.findByUserName(authenticationRequest.getUsername()).orElseThrow(() -> new RuntimeException("Object not found in the database !"));
         String jwtToken = jwtService.generateTokenOnlyWithUserDetails(userDetails);
